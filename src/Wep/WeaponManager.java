@@ -1,37 +1,23 @@
 package Wep;
 
 import Fight.Fighter;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
-public class WeaponManager <T extends Weapon> {
-    private List<T> weapons;
 
-    public WeaponManager(){
-        weapons = new ArrayList<T>();
-    }
+public class WeaponManager<T extends Weapon> {
+    private List<T> weapons = new ArrayList<>();
 
-    public void addWeapon(T weapon){
+    public void addWeapon(T weapon) {
         weapons.add(weapon);
     }
 
-
-    public T getWeapon(int index){
-        if(index<0 || index>= weapons.size()){
-            throw new IndexOutOfBoundsException("Weapon is not found");
-        }
-        return weapons.get(index);
-    }
-
-    public void provideWeapon(Fighter fighter){
-        if(!weapons.isEmpty()){
-            int WeaponSelected=(int) (Math.random()*weapons.size());
-            try{
-                fighter.setWeapon(getWeapon(WeaponSelected));
-            }catch(IndexOutOfBoundsException e){
-                System.out.println("ERROR occurred while selecting the weapon");
-            }
+    public void provideWeapons(Fighter player1, Fighter player2) {
+        Collections.shuffle(weapons);
+        if (weapons.size() >= 2) {
+            player1.setWeapon(weapons.get(0));
+            player2.setWeapon(weapons.get(1));
         }
     }
 }
