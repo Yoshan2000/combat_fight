@@ -5,7 +5,9 @@ import Wep.Weapon;
 public class Fighter {
     private String name;
     private int health;
-    private Weapon weapon;  // This will be null for the monster
+    private Weapon weapon;
+
+    private int damage;
 
     public Fighter(String name, int health) {
         this.name = name;
@@ -16,30 +18,46 @@ public class Fighter {
         this.weapon = weapon;
     }
 
+
+
     public void hit(Fighter opponent) {
         if (health > 0 && weapon != null) {
-            int damage = weapon.use();
+            damage = weapon.use();
             opponent.decHealth(damage, this);
+            System.out.println(name + " hits " + opponent.getName() + " with " + weapon.getType() + " for " + damage + " damage. New health is " + opponent.getHealth());
+
+        }
+    }
+    public void hit(Fighter opponent, double multiplier){
+        if(health > 0 && opponent.health > 0 && weapon != null){
+            damage = (int)(weapon.use()*multiplier);
+            opponent.decHealth(damage, this);
+            System.out.println(name + " hit  " + opponent.getName() + " with power  " + weapon.getType() + " for " + damage + " damage. New health after power hit is  " + opponent.getHealth());
+
         }
     }
 
     public void decHealth(int damage, Fighter attacker) {
         this.health -= damage;
-        System.out.println(attacker.getName() + " hits " + this.getName() + " with " + damage + " damage, new health is " + this.getHealth());
-        if (this.getHealth() <= 0) {
-            System.out.println(this.getName() + " is defeated.");
+        if (health <0) {
+            this.health=0; //to stop up the health at 0
         }
+
     }
 
     public String getName() {
         return name;
     }
-
     public int getHealth() {
         return health;
+    }
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public Weapon getWeapon() {
         return weapon;
     }
+
+
 }
