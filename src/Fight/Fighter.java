@@ -36,14 +36,18 @@ public class Fighter {
 
         }
     }
+    public void hit(Fighter opponent, int multiplier){
+        hit(opponent, (double)multiplier);
+    }
+
 
     public void decHealth(int damage, Fighter attacker) {
         this.health -= damage;
         if (health <0) {
-            this.health=0; //to stop up the health at 0
+            this.health=0;
         }
-
     }
+
 
     public String getName() {
         return name;
@@ -51,12 +55,14 @@ public class Fighter {
     public int getHealth() {
         return health;
     }
-    public void setHealth(int health) {
-        this.health = health;
-    }
+
 
     public Weapon getWeapon() {
         return weapon;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
 

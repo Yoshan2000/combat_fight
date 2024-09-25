@@ -1,12 +1,12 @@
 package Fight;
 
 public class Monster extends Fighter {
-    private int handDamage;
+    public int handDamage;
 
 
 
     public Monster(String name) {
-        super(name, 150);
+        super(name, 200);
         handDamage=15;
 
     }
@@ -19,12 +19,7 @@ public class Monster extends Fighter {
         }
     }
 
-    public int getHandDamage() {
-        return handDamage;
-    }
-    public void setHandDamage(int handDamage) {
-        this.handDamage = handDamage;
-    }
+
 
 
 }

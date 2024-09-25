@@ -1,6 +1,4 @@
 import Fight.Fighter;
-import Fight.Player1;
-import Fight.Player2;
 import Fight.Monster;
 
 import Levels.LevelManager;
@@ -10,30 +8,31 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class CombatArea {
-    public Fighter player1, player2;
+    private Fighter player1, player2;
     private Monster monster;
     private WeaponManager<Weapon> weaponManager;
     private Scanner scanner;
 
-    private int pause = 1000;
+    private final int pause = 1000;
     private LevelManager levelManager;
+
 
     public CombatArea() {
 
         weaponManager = new WeaponManager<>();
-        levelManager = new LevelManager(); // Initialize the LevelManager
-        scanner = new Scanner(System.in); // Initialize Scanner
+        levelManager = new LevelManager();
+        scanner = new Scanner(System.in);
         initializeFighters();
-        startGame(); // Now this handles multiple levels
+        startGame();
     }
 
     private void initializeFighters() {
         System.out.println("Enter player 1 name: ");
         String player1Name = scanner.nextLine();
-        player1 = new Player1(player1Name);
+        player1 = new Fighter(player1Name,100);
         System.out.println("Enter player 2 name: ");
         String player2Name = scanner.nextLine();
-        player2 = new Player2(player2Name);
+        player2 = new Fighter(player2Name,100);
 
         monster = new Monster("Big Bad Monster");
         addWeapons(); // Add weapons to the weapon manager
@@ -80,11 +79,11 @@ public class CombatArea {
 
         Thread player1Thread = new Thread(() -> {
             while (player1.getHealth() > 0 && monster.getHealth() > 0) {
-                System.out.println("Thread " +  Thread.currentThread().getName());
                 player1.hit(monster);
                 sleep(pause);
                 if (monster.getHealth() > 0) {
                     monster.hit(player1);
+                    player1.hit(monster,1);
                     if(monster.getHealth() <= 0) {
                         break;
                     }
@@ -97,7 +96,6 @@ public class CombatArea {
 
         Thread player2Thread = new Thread(() -> {
             while (player2.getHealth() > 0 && monster.getHealth() > 0) {
-                System.out.println("Thread " +  Thread.currentThread().getName());
                 player2.hit(monster);
                 sleep(pause);
                 if (monster.getHealth() > 0) {
@@ -112,13 +110,15 @@ public class CombatArea {
         }, "Player2-Thread");
 
 
-        player1Thread.start();
+
         player2Thread.start();
 
+        player1Thread.start();
 
         try {
             player1Thread.join();
             player2Thread.join();
+
         } catch (InterruptedException e) {
             System.out.println("Threads interrupted.");
         }

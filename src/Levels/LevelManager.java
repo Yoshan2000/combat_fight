@@ -7,31 +7,27 @@ import java.util.List;
 
 public class LevelManager {
     private int currentLevel;
-    private static final double MONSTER_HEALTH_MULTIPLIER = 1.5;
-    private static final double MONSTER_DAMAGE_MULTIPLIER = 1.2;
-    private  static final double WEAPON_DAMAGE_MULTIPLIER = 1;
-    private  static  final int PLAYER_HEALTH_RESET = 100;
+    private double MONSTER_HEALTH_MULTIPLIER = 1.5;
+    private  double MONSTER_DAMAGE_MULTIPLIER = 1.2;
+    private double WEAPON_DAMAGE_MULTIPLIER = 1.2;
+    private  int PLAYER_HEALTH_RESET = 100;
     private int baseMonsterHealth;
 
     public LevelManager() {
         currentLevel = 1;
-        baseMonsterHealth = 150;
+        baseMonsterHealth = 200;
     }
 
     public void levelUp(Monster monster, List<Fighter> players) {
 
 
-        // Increase monster health and damage
+
         if (monster.getHealth() <= 0) {
             baseMonsterHealth = (int) (baseMonsterHealth * MONSTER_HEALTH_MULTIPLIER);
             monster.setHealth(baseMonsterHealth);
-        } else {
-            int newMonsterHealth = (int) (monster.getHealth() * MONSTER_HEALTH_MULTIPLIER);
-            monster.setHealth(newMonsterHealth);
         }
-
-        int newMonsterDamage = (int) (monster.getHandDamage() * MONSTER_DAMAGE_MULTIPLIER);
-        monster.setHandDamage(newMonsterDamage);
+        int newMonsterDamage = (int) (monster.handDamage * MONSTER_DAMAGE_MULTIPLIER);
+        monster.handDamage = newMonsterDamage;
 
 
         System.out.println("New Monster Health: " + monster.getHealth() + ", New Monster Damage: " + newMonsterDamage);
